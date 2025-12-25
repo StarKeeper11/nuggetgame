@@ -1,6 +1,9 @@
 extends RigidBody3D
 
-var plr_speed = 1200.0
+var plr_speed := 1200.0
+var mouse_sensitivity := 0.001
+var twist_input := 0.0
+var pitch_input := 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,3 +24,18 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+	$TwistPivot.rotate_y(twist_input)
+	$TwistPivot/PitchPivot.rotate_x(pitch_input)
+	$TwistPivot/PitchPivot.rotation.x = clamp(
+		$TwistPivot/PitchPivot.rotation.x,
+		-1.5,
+		1.5
+	)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			twist_input = - event.relative.x * mouse_sensitivity
+			pitch_input = - event.relative.y * mouse_sensitivity
