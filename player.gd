@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 var plr_speed := 1200.0
-var mouse_sensitivity := 0.001
+var mouse_sensitivity := 0.002
 var twist_input := 0.0
 var pitch_input := 0.0
 
@@ -32,6 +32,8 @@ func _process(delta: float) -> void:
 		-1.5,
 		1.5
 	)
+	twist_input = 0.0
+	pitch_input = 0.0
 
 
 func _unhandled_input(event: InputEvent) -> void:
